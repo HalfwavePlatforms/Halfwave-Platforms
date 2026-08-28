@@ -1,6 +1,7 @@
 :root{
   --hw-black:#0A0A0C;
   --hw-blue:#2A3EF5;
+  --logo-blue:#0047E0;
   --deep-indigo:#141726;
   --signal-blue:#5B72FF;
   --ice-blue:#8FA0FF;
@@ -85,12 +86,13 @@ img{max-width:100%;display:block;}
 }
 [data-theme="light"] .navbar.scrolled{background:rgba(255,255,255,0.75);}
 .nav-inner{max-width:1200px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;}
-.logo-mark{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:1.1rem;color:var(--heading);}
-.logo-img{height:22px;width:auto;display:block;}
-.logo-img.for-dark{display:block;}
-.logo-img.for-light{display:none;}
-[data-theme="light"] .logo-img.for-dark{display:none;}
-[data-theme="light"] .logo-img.for-light{display:block;}
+.logo-mark{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:1.22rem;color:var(--heading);text-decoration:none;letter-spacing:-0.02em;}
+.logo-half{color:#0A0A0C;transition:color .3s ease;}
+[data-theme="dark"] .logo-half{color:#FFFFFF;}
+:root:not([data-theme="light"]) .logo-half{color:#FFFFFF;}
+[data-theme="light"] .logo-half{color:#0A0A0C;}
+.logo-wave{color:var(--logo-blue);}
+.logo-img{height:32px;width:32px;object-fit:contain;display:block;filter:drop-shadow(0 2px 8px rgba(42,62,245,0.25));}
 .nav-links{display:flex;gap:28px;font-size:0.9rem;color:var(--body);}
 .nav-links a:hover{color:var(--ice-blue);}
 .nav-right{display:flex;align-items:center;gap:16px;}
@@ -222,8 +224,8 @@ img{max-width:100%;display:block;}
   pointer-events:none;
 }
 .wave-canvas{position:absolute;inset:0;pointer-events:none;opacity:.55;}
-.hero-logo{width:220px;margin:0 auto 36px;position:relative;}
-.hero-logo img{width:100%;height:auto;display:block;opacity:0;transform:scale(0.92) translateY(8px);transition:opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1);}
+.hero-logo{width:112px;height:112px;margin:0 auto 32px;position:relative;background:transparent;border:none;}
+.hero-logo img{width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(0 14px 36px rgba(42,62,245,0.45));opacity:0;transform:scale(0.92) translateY(8px);transition:opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1);}
 .hero-logo img.in{opacity:1;transform:scale(1) translateY(0);}
 .hero h1{font-size:clamp(2.75rem,6vw,5.5rem);line-height:1.05;max-width:900px;margin:0 auto;}
 .hero h1 .blue{color:var(--hw-blue);}
