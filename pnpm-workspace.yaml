@@ -3,8 +3,19 @@ packages:
   - 'packages/*'
 
 allowBuilds:
-  "@prisma/client": true
-  "@prisma/engines": true
-  "bcrypt": true
-  "prisma": true
-  "msgpackr-extract": true
+  '@prisma/client': true
+  '@prisma/engines': true
+  bcrypt: true
+  msgpackr-extract: true
+  prisma: true
+  '@scarf/scarf': true
+  unrs-resolver: true
+
+onlyBuiltDependencies:
+  - '@prisma/client'
+  - '@prisma/engines'
+  - 'bcrypt'
+  - 'prisma'
+  - 'msgpackr-extract'
+  - '@scarf/scarf'
+  - 'unrs-resolver'
