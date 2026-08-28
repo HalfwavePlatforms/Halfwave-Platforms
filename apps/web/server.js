@@ -37,18 +37,8 @@ const server = http.createServer((req, res) => {
 
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {
-      if (reqPath === '/index.html') {
-        const fallbackPath = path.join(PUBLIC_DIR, 'Halfwave.html');
-        if (fs.existsSync(fallbackPath)) {
-          filePath = fallbackPath;
-        } else {
-          res.writeHead(404, { 'Content-Type': 'text/plain' });
-          return res.end('404 Not Found');
-        }
-      } else {
-        res.writeHead(404, { 'Content-Type': 'text/plain' });
-        return res.end('404 Not Found');
-      }
+      res.writeHead(404, { 'Content-Type': 'text/plain' });
+      return res.end('404 Not Found');
     }
 
     const ext = path.extname(filePath).toLowerCase();
