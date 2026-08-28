@@ -7,6 +7,12 @@ settings:
 importers:
 
   .:
+    devDependencies:
+      prettier:
+        specifier: ^3.4.2
+        version: 3.9.6
+
+  apps/api:
     dependencies:
       '@nestjs-modules/mailer':
         specifier: ^2.0.2
@@ -93,6 +99,15 @@ importers:
       '@eslint/js':
         specifier: ^9.18.0
         version: 9.39.5
+      '@halfwave/config-eslint':
+        specifier: workspace:*
+        version: link:../../packages/config-eslint
+      '@halfwave/config-typescript':
+        specifier: workspace:*
+        version: link:../../packages/config-typescript
+      '@halfwave/types':
+        specifier: workspace:*
+        version: link:../../packages/types
       '@nestjs/cli':
         specifier: ^11.0.0
         version: 11.0.24(@types/node@22.20.1)(cssnano@7.1.9(postcss@8.5.25))(csso@5.0.5)(postcss@8.5.25)(prettier@3.9.6)(uglify-js@3.19.3)
@@ -168,6 +183,21 @@ importers:
       typescript-eslint:
         specifier: ^8.20.0
         version: 8.65.0(eslint@9.39.5(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@5.9.3)
+
+  apps/web: {}
+
+  packages/config-eslint: {}
+
+  packages/config-typescript: {}
+
+  packages/types:
+    devDependencies:
+      '@halfwave/config-typescript':
+        specifier: workspace:*
+        version: link:../config-typescript
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
 
 packages:
 
@@ -2355,6 +2385,7 @@ packages:
   eslint@9.39.5:
     resolution: {integrity: sha512-DgZS62aPLXKlnxILS/AYCoRvHaZeXceIzlXPkkGGzJWSow1aEk0lbTlxUSlyjC8jcaKxAdOnTDz+o1JFSBsyjw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
     peerDependencies:
       jiti: '*'

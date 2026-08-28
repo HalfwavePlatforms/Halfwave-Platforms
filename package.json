@@ -11,6 +11,7 @@
     "start:web": "node apps/web/server.js",
     "build": "npm --prefix apps/api run build",
     "build:api": "npm --prefix apps/api run build",
+    "typecheck": "npm --prefix apps/api run build",
     "lint": "npm --prefix apps/api run lint",
     "test": "npm --prefix apps/api run test",
     "prisma:generate": "npx --prefix apps/api prisma generate",

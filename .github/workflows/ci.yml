@@ -40,10 +40,10 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Generate Prisma Client
-        run: pnpm --filter @halfwave/api prisma:generate
+        run: pnpm prisma:generate
 
       - name: Typecheck
         run: pnpm typecheck
