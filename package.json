@@ -14,9 +14,9 @@
     "typecheck": "npm --prefix apps/api run build",
     "lint": "npm --prefix apps/api run lint",
     "test": "npm --prefix apps/api run test",
-    "prisma:generate": "npx --prefix apps/api prisma generate",
-    "prisma:migrate": "npx --prefix apps/api prisma migrate dev",
-    "prisma:seed": "npx --prefix apps/api ts-node prisma/seed.ts",
+    "prisma:generate": "npm --prefix apps/api run prisma:generate",
+    "prisma:migrate": "npm --prefix apps/api run prisma:migrate",
+    "prisma:seed": "npm --prefix apps/api run prisma:seed",
     "docker:up": "docker-compose -f infrastructure/docker/docker-compose.yml up -d",
     "docker:down": "docker-compose -f infrastructure/docker/docker-compose.yml down",
     "verify": "node scripts/verify.js"
