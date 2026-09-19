@@ -29,10 +29,10 @@ const timeline = [
 ];
 
 const team = [
-  {name:"Deepak GM", role:"Founder & Full Stack Developer", bio:"Leads product strategy, software architecture, AI integration, and full-stack development."},
+  {name:"Deepak GM", role:"Founder & Full Stack Developer", bio:"Leads product strategy, software architecture, AI integration, and full-stack development.", image:"deepak-gm.jpg"},
   {name:"Dhyan K", role:"AI/ML Engineer", bio:"Builds intelligent machine learning models, automation systems, and data-driven solutions."},
   {name:"Aneesh Nagesh", role:"Creative Designer", bio:"Designs user experiences, brand identities, graphics, and visual content for digital products."},
-  {name:"Tharun Kumar SV", role:"CMOr", bio:"Designs user experiences, brand identities, graphics, and visual content for digital products."}
+  {name:"Tharun Kumar SV", role:"CMO", bio:"Designs user experiences, brand identities, graphics, and visual content for digital products."}
 ];
 
 const jobs = [
@@ -88,7 +88,8 @@ team.forEach(m=>{
   const initials = m.name.split(' ').map(w=>w[0]).join('');
   const card = document.createElement('div');
   card.className = 'team-card reveal';
-  card.innerHTML = `<div class="avatar">${initials}</div><h4>${m.name}</h4><div class="role">${m.role}</div><p class="bio">${m.bio}</p>`;
+  const avatarContent = m.image ? `<img src="${m.image}" alt="${m.name}" loading="lazy" />` : initials;
+  card.innerHTML = `<div class="avatar">${avatarContent}</div><h4>${m.name}</h4><div class="role">${m.role}</div><p class="bio">${m.bio}</p>`;
   teamGrid.appendChild(card);
 });
 
