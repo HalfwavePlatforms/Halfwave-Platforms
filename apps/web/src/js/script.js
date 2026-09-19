@@ -160,39 +160,41 @@ requestAnimationFrame(()=>{
   }, reducedMotion ? 0 : 150);
 });
 
-// ---------- Wave canvas background ----------
+// ---------- Wave canvas background (disabled) ----------
 const canvas = document.getElementById('waveCanvas');
-const ctx = canvas.getContext('2d');
-let waveW, waveH, waveRunning = !reducedMotion;
-function resizeCanvas(){
-  waveW = canvas.width = canvas.offsetWidth;
-  waveH = canvas.height = canvas.offsetHeight;
+if (canvas) {
+  const ctx = canvas.getContext('2d');
+  let waveW, waveH, waveRunning = !reducedMotion;
+  function resizeCanvas(){
+    waveW = canvas.width = canvas.offsetWidth;
+    waveH = canvas.height = canvas.offsetHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+  let t = 0;
+  function drawWaves(){
+    if(!waveRunning) return;
+    ctx.clearRect(0,0,waveW,waveH);
+    const lines = [
+      {amp:26, freq:0.006, speed:0.012, y:0.35, color:'rgba(42,62,245,0.35)'},
+      {amp:18, freq:0.009, speed:0.018, y:0.5, color:'rgba(91,114,255,0.22)'},
+      {amp:32, freq:0.004, speed:0.008, y:0.65, color:'rgba(143,160,255,0.15)'},
+    ];
+    lines.forEach(line=>{
+      ctx.beginPath();
+      for(let x=0;x<=waveW;x+=6){
+        const y = waveH*line.y + Math.sin(x*line.freq + t*line.speed)*line.amp;
+        if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      }
+      ctx.strokeStyle = line.color;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    });
+    t += 1;
+    requestAnimationFrame(drawWaves);
+  }
+  if(waveRunning) requestAnimationFrame(drawWaves);
 }
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
-let t = 0;
-function drawWaves(){
-  if(!waveRunning) return;
-  ctx.clearRect(0,0,waveW,waveH);
-  const lines = [
-    {amp:26, freq:0.006, speed:0.012, y:0.35, color:'rgba(42,62,245,0.35)'},
-    {amp:18, freq:0.009, speed:0.018, y:0.5, color:'rgba(91,114,255,0.22)'},
-    {amp:32, freq:0.004, speed:0.008, y:0.65, color:'rgba(143,160,255,0.15)'},
-  ];
-  lines.forEach(line=>{
-    ctx.beginPath();
-    for(let x=0;x<=waveW;x+=6){
-      const y = waveH*line.y + Math.sin(x*line.freq + t*line.speed)*line.amp;
-      if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-    }
-    ctx.strokeStyle = line.color;
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-  });
-  t += 1;
-  requestAnimationFrame(drawWaves);
-}
-if(waveRunning) requestAnimationFrame(drawWaves);
 
 // ---------- AI chat demo ----------
 const aiMessages = document.getElementById('aiMessages');
