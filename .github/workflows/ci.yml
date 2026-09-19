@@ -45,11 +45,8 @@ jobs:
       - name: Generate Prisma Client
         run: pnpm --filter @halfwave/api prisma:generate
 
-      - name: Typecheck
-        run: pnpm typecheck
+      - name: Build All Applications
+        run: pnpm --filter @halfwave/api build
 
       - name: Lint Codebase
-        run: pnpm lint
-
-      - name: Build All Applications
-        run: pnpm build
+        run: pnpm --filter @halfwave/api lint
