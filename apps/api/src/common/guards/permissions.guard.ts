@@ -61,7 +61,7 @@ export class PermissionsGuard implements CanActivate {
     }
 
     // Extract names of permissions associated with the role
-    const userPermissions = roleWithPermissions.permissions.map((p) => p.name);
+    const userPermissions = roleWithPermissions.permissions.map((p: { name: string }) => p.name);
 
     // 4. Verify user has every required permission
     const hasAllPermissions = requiredPermissions.every((perm) =>
