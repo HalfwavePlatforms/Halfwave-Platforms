@@ -177,12 +177,37 @@
         <h2>Talk to the platform.</h2>
         <p>A concept preview of Halfwave's assistant interface, demonstrated here with a scripted conversation.</p>
       </div>
-      <div class="ai-panel reveal">
-        <div class="ai-panel-head"><span class="ai-dot"></span> halfwave-ai · concept demo</div>
-        <div class="ai-messages" id="aiMessages"></div>
-        <div class="ai-input-row">
-          <input type="text" placeholder="Ask about Halfwave's ecosystem…" id="aiInput" />
-          <button class="btn btn-primary" style="padding:11px 16px;" id="aiSend">→</button>
+      <div class="ai-container reveal">
+        <div class="ai-panel">
+          <div class="ai-panel-head">
+            <div class="ai-window-controls" aria-hidden="true">
+              <span class="ai-dot-ctrl ai-dot-red"></span>
+              <span class="ai-dot-ctrl ai-dot-yellow"></span>
+              <span class="ai-dot-ctrl ai-dot-green"></span>
+            </div>
+            <div class="ai-head-title">
+              <span class="ai-pulse-dot"></span>
+              <span>halfwave-ai · concept demo</span>
+            </div>
+            <div class="ai-head-meta">
+              <span class="ai-model-tag">v2.4 preview</span>
+            </div>
+          </div>
+          <div class="ai-messages" id="aiMessages" role="log" aria-live="polite"></div>
+          <div class="ai-prompt-pills" id="aiPromptPills">
+            <button class="ai-pill" type="button">What does Halfwave build?</button>
+            <button class="ai-pill" type="button">Which product should I try first?</button>
+            <button class="ai-pill" type="button">Tell me about Cloud &amp; AI</button>
+          </div>
+          <div class="ai-input-row">
+            <input type="text" placeholder="Ask about Halfwave's ecosystem…" id="aiInput" aria-label="Ask Halfwave AI" />
+            <button class="btn btn-primary ai-send-btn" id="aiSend" aria-label="Send message">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
       <div class="ai-badge">Concept / demo interface — not a live production model</div>

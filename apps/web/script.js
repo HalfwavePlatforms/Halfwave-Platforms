@@ -290,13 +290,57 @@ const aiObserver = new IntersectionObserver((entries)=>{
 },{threshold:0.3});
 aiObserver.observe(document.getElementById('ai'));
 
-document.getElementById('aiSend').addEventListener('click', ()=>{
+function getBotResponse(userText) {
+  const query = userText.toLowerCase();
+  if (query.includes('what') || query.includes('build') || query.includes('service') || query.includes('ecosystem')) {
+    return "Halfwave Platforms builds web, mobile, AI, data analytics, UI/UX, video, and cloud deployment solutions for startups and modern enterprises.";
+  }
+  if (query.includes('try') || query.includes('first') || query.includes('start') || query.includes('product')) {
+    return "Explore our Web & Mobile platforms for rapid product rollout, or test Halfwave AI integrations to automate your business operations.";
+  }
+  if (query.includes('cloud') || query.includes('ai') || query.includes('deploy')) {
+    return "Our Cloud & AI stack combines automated LLM orchestration, Docker/Kubernetes containerization, and enterprise AWS/Azure CI/CD delivery.";
+  }
+  if (query.includes('team') || query.includes('founder') || query.includes('deepak')) {
+    return "Halfwave Platforms is founded by Deepak GM (Software Architect & Lead Full Stack Developer) alongside AI engineers and creative designers.";
+  }
+  return "Halfwave Platforms combines engineering rigor with modern AI to build measurable digital products. Feel free to reach out via our contact section!";
+}
+
+const handleAiSend = () => {
   const input = document.getElementById('aiInput');
-  if(!input.value.trim()) return;
-  addMessage({who:'user', text: input.value.trim()}).then(()=>{
-    addMessage({who:'bot', text:"This concept demo replays a scripted conversation — a live model isn't connected here."});
-  });
+  const text = input.value.trim();
+  if (!text) return;
   input.value = '';
+  addMessage({who:'user', text}).then(() => {
+    const reply = getBotResponse(text);
+    addMessage({who:'bot', text: reply});
+  });
+};
+
+const aiSendBtn = document.getElementById('aiSend');
+if (aiSendBtn) {
+  aiSendBtn.addEventListener('click', handleAiSend);
+}
+
+const aiInputEl = document.getElementById('aiInput');
+if (aiInputEl) {
+  aiInputEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleAiSend();
+    }
+  });
+}
+
+document.querySelectorAll('.ai-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    const input = document.getElementById('aiInput');
+    if (input) {
+      input.value = pill.textContent.trim();
+      handleAiSend();
+    }
+  });
 });
 
 // ---------- Contact form ----------
