@@ -40,23 +40,66 @@ const jobs = [
 ];
 
 // ---------- Render: ecosystem ----------
+const productIcons = {
+  "Web Development": `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>`,
+  "Mobile App Development": `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>`,
+  "AI & Machine Learning": `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path><circle cx="12" cy="12" r="3"></circle></svg>`,
+  "Data Analytics": `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>`,
+  "UI/UX Design": `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M9 21V9"></path></svg>`,
+  "Graphic Designing": `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.563-2.512 5.563-5.563C22 6.5 17.5 2 12 2z"></path></svg>`,
+  "Video Editing": `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>`,
+  "Cloud & Deployment": `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>`,
+};
+
 const ecoGrid = document.getElementById('ecoGrid');
-products.forEach((p,i)=>{
+products.forEach((p, i) => {
   const card = document.createElement('div');
-  card.className = 'glass-card eco-card reveal';
-  const statusClass = p.status==='live' ? 'status-live' : p.status==='dev' ? 'status-dev' : 'status-research';
-  const statusLabel = p.status==='live' ? 'Live' : p.status==='dev' ? 'In Development' : 'Research';
+  card.className = 'eco-card reveal';
+  card.setAttribute('tabindex', '0');
+  card.setAttribute('role', 'button');
+  card.setAttribute('aria-expanded', 'false');
+
+  const statusClass = p.status === 'live' ? 'status-live' : p.status === 'dev' ? 'status-dev' : 'status-research';
+  const statusLabel = p.status === 'live' ? 'Live' : p.status === 'dev' ? 'In Development' : 'Research';
+  const iconSvg = productIcons[p.name] || `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>`;
+
   card.innerHTML = `
-    <div class="top-row">
-      <div class="eco-icon">${p.name[0]}</div>
-      <span class="status-tag ${statusClass}">${statusLabel}</span>
+    <div class="eco-top-row">
+      <div class="eco-icon-box" aria-hidden="true">${iconSvg}</div>
+      <span class="status-tag ${statusClass}">
+        <span class="status-dot"></span>
+        ${statusLabel}
+      </span>
     </div>
+    <div class="eco-cat">${p.cat}</div>
     <h4>${p.name}</h4>
-    <p style="color:var(--muted);font-family:var(--font-mono);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;">${p.cat}</p>
-    <p>${p.desc}</p>
-    <div class="expand">${p.detail}</div>
+    <p class="eco-desc">${p.desc}</p>
+    <div class="eco-detail">${p.detail}</div>
+    <div class="eco-expand-row">
+      <span class="eco-expand-label">Platform details</span>
+      <svg class="eco-expand-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </div>
   `;
-  card.addEventListener('click', ()=> card.classList.toggle('open'));
+
+  const toggleOpen = () => {
+    const isOpen = card.classList.toggle('open');
+    card.setAttribute('aria-expanded', String(isOpen));
+    const label = card.querySelector('.eco-expand-label');
+    if (label) {
+      label.textContent = isOpen ? 'Hide details' : 'Platform details';
+    }
+  };
+
+  card.addEventListener('click', toggleOpen);
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleOpen();
+    }
+  });
+
   ecoGrid.appendChild(card);
 });
 
