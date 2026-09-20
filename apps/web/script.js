@@ -29,10 +29,10 @@ const timeline = [
 ];
 
 const team = [
-  {name:"Deepak GM", role:"Founder & Full Stack Developer", bio:"Leads product strategy, software architecture, AI integration, and full-stack development.", image:"deepak-gm.jpg"},
+  {name:"Deepak GM", role:"Founder & Full Stack Developer", bio:"Leads product strategy, software architecture, AI integration, and full-stack development across Halfwave Platforms.", image:"deepak-gm.jpg"},
   {name:"Dhyan K", role:"AI/ML Engineer", bio:"Builds intelligent machine learning models, automation systems, and data-driven solutions."},
-  {name:"Aneesh Nagesh", role:"Creative Designer", bio:"Designs user experiences, brand identities, graphics, and visual content for digital products."},
-  {name:"Tharun Kumar SV", role:"CMO", bio:"Designs user experiences, brand identities, graphics, and visual content for digital products."}
+  {name:"Aneesh Nagesh", role:"Creative Designer", bio:"Designs intuitive user experiences, brand identities, graphics, and visual design systems."},
+  {name:"Tharun Kumar SV", role:"Chief Marketing Officer", bio:"Drives marketing strategy, brand growth, market positioning, and studio partnerships."}
 ];
 
 const jobs = [
@@ -163,29 +163,54 @@ timeline.forEach(t => {
 
 // ---------- Render: team ----------
 const teamGrid = document.getElementById('teamGrid');
-team.forEach(m=>{
-  const initials = m.name.split(' ').map(w=>w[0]).join('');
+team.forEach(m => {
+  const initials = m.name.split(' ').map(w => w[0]).join('');
   const card = document.createElement('div');
   card.className = 'team-card reveal';
-  const avatarContent = m.image ? `<img src="${m.image}" alt="${m.name}" loading="lazy" />` : initials;
-  card.innerHTML = `<div class="avatar">${avatarContent}</div><h4>${m.name}</h4><div class="role">${m.role}</div><p class="bio">${m.bio}</p>`;
+  const avatarContent = m.image
+    ? `<img src="${m.image}" alt="${m.name}" loading="lazy" />`
+    : `<span class="initials">${initials}</span>`;
+
+  card.innerHTML = `
+    <div class="team-avatar-box">
+      <div class="avatar">${avatarContent}</div>
+    </div>
+    <h4>${m.name}</h4>
+    <div class="team-role">${m.role}</div>
+    <p class="bio">${m.bio}</p>
+  `;
   teamGrid.appendChild(card);
 });
 
 // ---------- Render: jobs ----------
 const jobsList = document.getElementById('jobsList');
-jobs.forEach(j=>{
+jobs.forEach(j => {
   const row = document.createElement('div');
   row.className = 'job-row reveal';
   row.innerHTML = `
     <div class="job-info">
       <h4>${j.title}</h4>
-      <div class="job-meta"><span>${j.team}</span><span>${j.location}</span></div>
+      <div class="job-meta">
+        <span class="job-pill"><span class="job-dot"></span>${j.team}</span>
+        <span class="job-pill">${j.location}</span>
+        <span class="job-pill">Open Position</span>
+      </div>
     </div>
-    <a href="#contact" class="btn btn-ghost" style="padding:9px 16px;font-size:0.82rem;">Apply</a>
+    <a href="#contact" class="btn btn-ghost job-apply-btn">Apply Now →</a>
   `;
   jobsList.appendChild(row);
 });
+
+const openInvite = document.createElement('div');
+openInvite.className = 'open-invite reveal';
+openInvite.innerHTML = `
+  <div class="open-invite-text">
+    <strong>Don't see your exact role?</strong>
+    <span>We're always looking for exceptional engineers, designers, and AI specialists.</span>
+  </div>
+  <a href="#contact" class="btn btn-ghost" style="font-size:0.85rem;padding:9px 18px;">General Application →</a>
+`;
+jobsList.appendChild(openInvite);
 
 // ---------- Reveal on scroll ----------
 const revealEls = document.querySelectorAll('.reveal');
