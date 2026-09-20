@@ -134,24 +134,26 @@ hamburger.addEventListener('click', ()=> drawer.style.display = 'flex');
 closeDrawer.addEventListener('click', ()=> drawer.style.display = 'none');
 drawer.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> drawer.style.display='none'));
 
-// ---------- Theme toggle ----------
+// ---------- Theme toggle (optional) ----------
 const themeToggle = document.getElementById('themeToggle');
-const html = document.documentElement;
-const savedTheme = localStorage.getItem('hw-theme');
-if(savedTheme){
-  html.setAttribute('data-theme', savedTheme);
-  themeToggle.textContent = savedTheme === 'light' ? '◐' : '◑';
-} else {
-  html.setAttribute('data-theme', 'light');
-  themeToggle.textContent = '◐';
+if (themeToggle) {
+  const html = document.documentElement;
+  const savedTheme = localStorage.getItem('hw-theme');
+  if(savedTheme){
+    html.setAttribute('data-theme', savedTheme);
+    themeToggle.textContent = savedTheme === 'light' ? '◐' : '◑';
+  } else {
+    html.setAttribute('data-theme', 'dark');
+    themeToggle.textContent = '◑';
+  }
+  themeToggle.addEventListener('click', ()=>{
+    const isLight = html.getAttribute('data-theme') === 'light';
+    const nextTheme = isLight ? 'dark' : 'light';
+    html.setAttribute('data-theme', nextTheme);
+    themeToggle.textContent = nextTheme === 'light' ? '◐' : '◑';
+    localStorage.setItem('hw-theme', nextTheme);
+  });
 }
-themeToggle.addEventListener('click', ()=>{
-  const isLight = html.getAttribute('data-theme') === 'light';
-  const nextTheme = isLight ? 'dark' : 'light';
-  html.setAttribute('data-theme', nextTheme);
-  themeToggle.textContent = nextTheme === 'light' ? '◐' : '◑';
-  localStorage.setItem('hw-theme', nextTheme);
-});
 
 // ---------- Hero logo intro ----------
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

@@ -1,16 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<script>
-  (function(){
-    const savedTheme = localStorage.getItem('hw-theme');
-    const theme = savedTheme || 'light';
-    document.documentElement.setAttribute('data-theme', theme);
-  })();
-</script>
-<title>Halfwave Platforms | Building Digital Products That Drive Growth.</title>
+<title>Halfwave Platforms | Digital Product Studio</title>
 <meta name="description" content="Halfwave Platforms delivers professional web development, mobile app development, AI and machine learning, data analytics, UI/UX design, graphic design, video editing, and cloud deployment services for modern businesses." />
 <meta name="keywords" content="Halfwave Platforms, web development, mobile app development, AI solutions, machine learning, data analytics, UI UX design, graphic design, video editing, cloud deployment, AWS deployment, Azure deployment, React Native, Flutter, PWA, CMS development" />
 <meta property="og:description" content="Halfwave Platforms builds web, mobile, AI, analytics, design, video, and cloud solutions that help businesses grow through intelligent digital products." />
@@ -18,7 +11,7 @@
 <link rel="icon" type="image/png" href="logo.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -33,27 +26,26 @@
       <a href="#about">About</a>
       <a href="#ecosystem">Platforms</a>
       <a href="#ai">Halfwave AI</a>
-      <a href="#lab">Innovation Lab</a>
-      <a href="#timeline">Timeline</a>
-      <a href="#careers">Careers</a>
+      <a href="#lab">Process</a>
+      <a href="#timeline">Roadmap</a>
+      <a href="#team">Team</a>
       <a href="#contact">Contact</a>
     </div>
     <div class="nav-right">
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark mode">◐</button>
-      <a href="#contact" class="btn btn-primary" style="padding:10px 18px;font-size:0.85rem;">Get in touch</a>
+      <a href="#contact" class="btn btn-primary" style="padding:10px 20px;font-size:0.85rem;">Get in touch</a>
       <button class="hamburger" id="hamburger" aria-label="Open menu">☰</button>
     </div>
   </div>
 </nav>
 
-<div id="mobileDrawer" style="position:fixed;inset:0;background:rgba(8,8,11,0.96);backdrop-filter:blur(12px);z-index:200;display:none;flex-direction:column;align-items:center;justify-content:center;gap:28px;">
+<div id="mobileDrawer" style="position:fixed;inset:0;background:rgba(8,9,12,0.96);backdrop-filter:blur(16px);z-index:200;display:none;flex-direction:column;align-items:center;justify-content:center;gap:28px;">
   <button id="closeDrawer" style="position:absolute;top:24px;right:24px;background:none;border:none;color:#fff;font-size:1.6rem;cursor:pointer;">✕</button>
   <a href="#about" class="drawer-link" style="font-family:var(--font-display);font-size:1.4rem;color:#fff;">About</a>
   <a href="#ecosystem" class="drawer-link" style="font-family:var(--font-display);font-size:1.4rem;color:#fff;">Platforms</a>
   <a href="#ai" class="drawer-link" style="font-family:var(--font-display);font-size:1.4rem;color:#fff;">Halfwave AI</a>
-  <a href="#lab" class="drawer-link" style="font-family:var(--font-display);font-size:1.4rem;color:#fff;">Innovation Lab</a>
-  <a href="#timeline" class="drawer-link" style="font-family:var(--font-display);font-size:1.4rem;color:#fff;">Timeline</a>
-  <a href="#careers" class="drawer-link" style="font-family:var(--font-display);font-size:1.4rem;color:#fff;">Careers</a>
+  <a href="#lab" class="drawer-link" style="font-family:var(--font-display);font-size:1.4rem;color:#fff;">Process</a>
+  <a href="#timeline" class="drawer-link" style="font-family:var(--font-display);font-size:1.4rem;color:#fff;">Roadmap</a>
+  <a href="#team" class="drawer-link" style="font-family:var(--font-display);font-size:1.4rem;color:#fff;">Team</a>
   <a href="#contact" class="drawer-link" style="font-family:var(--font-display);font-size:1.4rem;color:#fff;">Contact</a>
 </div>
 
@@ -62,16 +54,39 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-glow"></div>
-    <div class="hero-logo" aria-hidden="true">
+    <div class="hero-pill reveal">
+      <span class="pill-dot"></span> Digital Product Studio &middot; Accepting New Projects for 2026
+    </div>
+    <div class="hero-logo reveal" aria-hidden="true">
       <img id="heroLogoImg" src="logo.png" alt="Halfwave Platforms Logo" />
     </div>
-    <h1 class="reveal"><span class="logo-half">Half</span><span class="logo-wave">wave</span> Platforms</h1>
-    <p class="sub reveal">We help ambitious startups, businesses, and enterprises build scalable digital products through expert web development, mobile applications, artificial intelligence, analytics, design, media, and cloud deployment services.</p>
+    <h1 class="reveal">Engineering the next wave of <span style="color:var(--hw-blue);">digital products</span>.</h1>
+    <p class="sub reveal">Halfwave Platforms is a digital product studio. We partner with ambitious startups and enterprises to design, architect, and deploy high-performance web applications, mobile platforms, and AI systems.</p>
     <div class="hero-ctas reveal">
-      <a href="#ecosystem" class="btn btn-primary">Explore Services</a>
+      <a href="#ecosystem" class="btn btn-primary">Explore Services <span style="font-size:1.1em;line-height:0.8;">&rarr;</span></a>
       <a href="#contact" class="btn btn-ghost">Get in touch</a>
     </div>
-    <div class="hero-tagline reveal">Building Digital Products That Drive Growth.</div>
+    <div class="hero-metrics reveal">
+      <div class="metric-item">
+        <span class="metric-value">8 Core</span>
+        <span class="metric-label">Disciplines</span>
+      </div>
+      <div class="metric-divider"></div>
+      <div class="metric-item">
+        <span class="metric-value">Full-Stack</span>
+        <span class="metric-label">Architecture</span>
+      </div>
+      <div class="metric-divider"></div>
+      <div class="metric-item">
+        <span class="metric-value">AI-First</span>
+        <span class="metric-label">Engineering</span>
+      </div>
+      <div class="metric-divider"></div>
+      <div class="metric-item">
+        <span class="metric-value">Cloud Native</span>
+        <span class="metric-label">DevOps &amp; SLA</span>
+      </div>
+    </div>
   </section>
 
   <!-- ABOUT -->
