@@ -1788,24 +1788,7 @@ footer{
   line-height:1.6;
   color:var(--text-muted);
   max-width:320px;
-  margin-bottom:20px;
-}
-.footer-system-status{
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-  font-family:var(--font-mono);
-  font-size:0.7rem;
-  color:#00E0B8;
-  background:rgba(0,224,184,0.06);
-  border:1px solid rgba(0,224,184,0.2);
-  padding:4px 10px;
-  border-radius:var(--radius-full);
-  align-self:flex-start;
-}
-.footer-system-status .status-dot{
-  background:#00E0B8;
-  box-shadow:0 0 8px #00E0B8;
+  margin-bottom:0;
 }
 
 .footer-col h5{
