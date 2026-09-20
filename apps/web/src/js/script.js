@@ -29,10 +29,10 @@ const timeline = [
 ];
 
 const team = [
-  {name:"Deepak GM", role:"Founder & Full Stack Developer", bio:"Leads product strategy, software architecture, AI integration, and full-stack development.", image:"deepak-gm.jpg"},
+  {name:"Deepak GM", role:"Founder & Full Stack Developer", bio:"Leads product strategy, software architecture, AI integration, and full-stack development across Halfwave Platforms.", image:"deepak-gm.jpg"},
   {name:"Dhyan K", role:"AI/ML Engineer", bio:"Builds intelligent machine learning models, automation systems, and data-driven solutions."},
-  {name:"Aneesh Nagesh", role:"Creative Designer", bio:"Designs user experiences, brand identities, graphics, and visual content for digital products."},
-  {name:"Tharun Kumar SV", role:"CMO", bio:"Designs user experiences, brand identities, graphics, and visual content for digital products."}
+  {name:"Aneesh Nagesh", role:"Creative Designer", bio:"Designs intuitive user experiences, brand identities, graphics, and visual design systems."},
+  {name:"Tharun Kumar SV", role:"Chief Marketing Officer", bio:"Drives marketing strategy, brand growth, market positioning, and studio partnerships."}
 ];
 
 const jobs = [
@@ -40,33 +40,95 @@ const jobs = [
 ];
 
 // ---------- Render: ecosystem ----------
+const productIcons = {
+  "Web Development": `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>`,
+  "Mobile App Development": `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>`,
+  "AI & Machine Learning": `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path><circle cx="12" cy="12" r="3"></circle></svg>`,
+  "Data Analytics": `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>`,
+  "UI/UX Design": `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M9 21V9"></path></svg>`,
+  "Graphic Designing": `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.563-2.512 5.563-5.563C22 6.5 17.5 2 12 2z"></path></svg>`,
+  "Video Editing": `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>`,
+  "Cloud & Deployment": `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>`,
+};
+
 const ecoGrid = document.getElementById('ecoGrid');
-products.forEach((p,i)=>{
+products.forEach((p, i) => {
   const card = document.createElement('div');
-  card.className = 'glass-card eco-card reveal';
-  const statusClass = p.status==='live' ? 'status-live' : p.status==='dev' ? 'status-dev' : 'status-research';
-  const statusLabel = p.status==='live' ? 'Live' : p.status==='dev' ? 'In Development' : 'Research';
+  card.className = 'eco-card reveal';
+  card.setAttribute('tabindex', '0');
+  card.setAttribute('role', 'button');
+  card.setAttribute('aria-expanded', 'false');
+
+  const statusClass = p.status === 'live' ? 'status-live' : p.status === 'dev' ? 'status-dev' : 'status-research';
+  const statusLabel = p.status === 'live' ? 'Live' : p.status === 'dev' ? 'In Development' : 'Research';
+  const iconSvg = productIcons[p.name] || `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>`;
+
   card.innerHTML = `
-    <div class="top-row">
-      <div class="eco-icon">${p.name[0]}</div>
-      <span class="status-tag ${statusClass}">${statusLabel}</span>
+    <div class="eco-top-row">
+      <div class="eco-icon-box" aria-hidden="true">${iconSvg}</div>
+      <span class="status-tag ${statusClass}">
+        <span class="status-dot"></span>
+        ${statusLabel}
+      </span>
     </div>
+    <div class="eco-cat">${p.cat}</div>
     <h4>${p.name}</h4>
-    <p style="color:var(--muted);font-family:var(--font-mono);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;">${p.cat}</p>
-    <p>${p.desc}</p>
-    <div class="expand">${p.detail}</div>
+    <p class="eco-desc">${p.desc}</p>
+    <div class="eco-detail">${p.detail}</div>
+    <div class="eco-expand-row">
+      <span class="eco-expand-label">Platform details</span>
+      <svg class="eco-expand-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </div>
   `;
-  card.addEventListener('click', ()=> card.classList.toggle('open'));
+
+  const toggleOpen = () => {
+    const isOpen = card.classList.toggle('open');
+    card.setAttribute('aria-expanded', String(isOpen));
+    const label = card.querySelector('.eco-expand-label');
+    if (label) {
+      label.textContent = isOpen ? 'Hide details' : 'Platform details';
+    }
+  };
+
+  card.addEventListener('click', toggleOpen);
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleOpen();
+    }
+  });
+
   ecoGrid.appendChild(card);
 });
 
 // ---------- Render: process ----------
+const processIcons = [
+  `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>`,
+  `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>`,
+  `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>`,
+  `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>`,
+  `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path></svg>`,
+  `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>`
+];
+
 const processGrid = document.getElementById('processGrid');
-processItems.forEach((item,index)=>{
+processItems.forEach((item, index) => {
   const card = document.createElement('div');
   card.className = 'process-card reveal';
+  const stepNum = String(index + 1).padStart(2, '0');
+  const icon = processIcons[index] || processIcons[0];
+
   card.innerHTML = `
-    <span class="process-badge">${String(index + 1).padStart(2, '0')}</span>
+    <div class="process-card-top">
+      <span class="process-step-badge">
+        <span class="process-step-dot"></span>
+        STEP ${stepNum}
+      </span>
+      <div class="process-icon-box" aria-hidden="true">${icon}</div>
+    </div>
+    <div class="process-phase-tag">Phase ${stepNum} / 06</div>
     <h4>${item.title}</h4>
     <p>${item.desc}</p>
   `;
@@ -75,38 +137,80 @@ processItems.forEach((item,index)=>{
 
 // ---------- Render: timeline ----------
 const timelineRow = document.getElementById('timelineRow');
-timeline.forEach(t=>{
+timeline.forEach(t => {
   const node = document.createElement('div');
-  node.className = 'tl-node reveal' + (t.future ? ' future' : '');
-  node.innerHTML = `<div class="tl-marker"></div><span class="tl-label">${t.label}</span><h4>${t.title}</h4><p>${t.desc}</p>`;
+  const isPresent = t.label === '2026' || t.title.toLowerCase().includes('present');
+  const stateClass = t.future ? 'is-future' : isPresent ? 'is-present' : 'is-completed';
+  node.className = `tl-node reveal ${stateClass}`;
+
+  const badgeText = isPresent ? '2026 · PRESENT' : t.label;
+
+  node.innerHTML = `
+    <div class="tl-marker" aria-hidden="true">
+      <span class="tl-marker-dot"></span>
+    </div>
+    <div class="tl-card">
+      <div class="tl-badge-row">
+        <span class="tl-badge ${stateClass}">${badgeText}</span>
+        ${isPresent ? '<span class="tl-status-live"><span class="status-dot"></span>Active Beta</span>' : ''}
+      </div>
+      <h4>${t.title}</h4>
+      <p>${t.desc}</p>
+    </div>
+  `;
   timelineRow.appendChild(node);
 });
 
 // ---------- Render: team ----------
 const teamGrid = document.getElementById('teamGrid');
-team.forEach(m=>{
-  const initials = m.name.split(' ').map(w=>w[0]).join('');
+team.forEach(m => {
+  const initials = m.name.split(' ').map(w => w[0]).join('');
   const card = document.createElement('div');
   card.className = 'team-card reveal';
-  const avatarContent = m.image ? `<img src="${m.image}" alt="${m.name}" loading="lazy" />` : initials;
-  card.innerHTML = `<div class="avatar">${avatarContent}</div><h4>${m.name}</h4><div class="role">${m.role}</div><p class="bio">${m.bio}</p>`;
+  const avatarContent = m.image
+    ? `<img src="${m.image}" alt="${m.name}" loading="lazy" />`
+    : `<span class="initials">${initials}</span>`;
+
+  card.innerHTML = `
+    <div class="team-avatar-box">
+      <div class="avatar">${avatarContent}</div>
+    </div>
+    <h4>${m.name}</h4>
+    <div class="team-role">${m.role}</div>
+    <p class="bio">${m.bio}</p>
+  `;
   teamGrid.appendChild(card);
 });
 
 // ---------- Render: jobs ----------
 const jobsList = document.getElementById('jobsList');
-jobs.forEach(j=>{
+jobs.forEach(j => {
   const row = document.createElement('div');
   row.className = 'job-row reveal';
   row.innerHTML = `
     <div class="job-info">
       <h4>${j.title}</h4>
-      <div class="job-meta"><span>${j.team}</span><span>${j.location}</span></div>
+      <div class="job-meta">
+        <span class="job-pill"><span class="job-dot"></span>${j.team}</span>
+        <span class="job-pill">${j.location}</span>
+        <span class="job-pill">Open Position</span>
+      </div>
     </div>
-    <a href="#contact" class="btn btn-ghost" style="padding:9px 16px;font-size:0.82rem;">Apply</a>
+    <a href="#contact" class="btn btn-ghost job-apply-btn">Apply Now →</a>
   `;
   jobsList.appendChild(row);
 });
+
+const openInvite = document.createElement('div');
+openInvite.className = 'open-invite reveal';
+openInvite.innerHTML = `
+  <div class="open-invite-text">
+    <strong>Don't see your exact role?</strong>
+    <span>We're always looking for exceptional engineers, designers, and AI specialists.</span>
+  </div>
+  <a href="#contact" class="btn btn-ghost" style="font-size:0.85rem;padding:9px 18px;">General Application →</a>
+`;
+jobsList.appendChild(openInvite);
 
 // ---------- Reveal on scroll ----------
 const revealEls = document.querySelectorAll('.reveal');
@@ -134,25 +238,30 @@ hamburger.addEventListener('click', ()=> drawer.style.display = 'flex');
 closeDrawer.addEventListener('click', ()=> drawer.style.display = 'none');
 drawer.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> drawer.style.display='none'));
 
-// ---------- Theme toggle (optional) ----------
+// ---------- Theme toggle ----------
+const htmlEl = document.documentElement;
+const applyTheme = (theme) => {
+  htmlEl.setAttribute('data-theme', theme);
+  localStorage.setItem('hw-theme', theme);
+};
+
+const initTheme = localStorage.getItem('hw-theme') || 'light';
+applyTheme(initTheme);
+
+const toggleTheme = () => {
+  const current = htmlEl.getAttribute('data-theme') || 'light';
+  const next = current === 'light' ? 'dark' : 'light';
+  applyTheme(next);
+};
+
 const themeToggle = document.getElementById('themeToggle');
 if (themeToggle) {
-  const html = document.documentElement;
-  const savedTheme = localStorage.getItem('hw-theme');
-  if(savedTheme){
-    html.setAttribute('data-theme', savedTheme);
-    themeToggle.textContent = savedTheme === 'light' ? '◐' : '◑';
-  } else {
-    html.setAttribute('data-theme', 'dark');
-    themeToggle.textContent = '◑';
-  }
-  themeToggle.addEventListener('click', ()=>{
-    const isLight = html.getAttribute('data-theme') === 'light';
-    const nextTheme = isLight ? 'dark' : 'light';
-    html.setAttribute('data-theme', nextTheme);
-    themeToggle.textContent = nextTheme === 'light' ? '◐' : '◑';
-    localStorage.setItem('hw-theme', nextTheme);
-  });
+  themeToggle.addEventListener('click', toggleTheme);
+}
+
+const drawerThemeToggle = document.getElementById('drawerThemeToggle');
+if (drawerThemeToggle) {
+  drawerThemeToggle.addEventListener('click', toggleTheme);
 }
 
 // ---------- Hero logo intro ----------
@@ -247,13 +356,57 @@ const aiObserver = new IntersectionObserver((entries)=>{
 },{threshold:0.3});
 aiObserver.observe(document.getElementById('ai'));
 
-document.getElementById('aiSend').addEventListener('click', ()=>{
+function getBotResponse(userText) {
+  const query = userText.toLowerCase();
+  if (query.includes('what') || query.includes('build') || query.includes('service') || query.includes('ecosystem')) {
+    return "Halfwave Platforms builds web, mobile, AI, data analytics, UI/UX, video, and cloud deployment solutions for startups and modern enterprises.";
+  }
+  if (query.includes('try') || query.includes('first') || query.includes('start') || query.includes('product')) {
+    return "Explore our Web & Mobile platforms for rapid product rollout, or test Halfwave AI integrations to automate your business operations.";
+  }
+  if (query.includes('cloud') || query.includes('ai') || query.includes('deploy')) {
+    return "Our Cloud & AI stack combines automated LLM orchestration, Docker/Kubernetes containerization, and enterprise AWS/Azure CI/CD delivery.";
+  }
+  if (query.includes('team') || query.includes('founder') || query.includes('deepak')) {
+    return "Halfwave Platforms is founded by Deepak GM (Software Architect & Lead Full Stack Developer) alongside AI engineers and creative designers.";
+  }
+  return "Halfwave Platforms combines engineering rigor with modern AI to build measurable digital products. Feel free to reach out via our contact section!";
+}
+
+const handleAiSend = () => {
   const input = document.getElementById('aiInput');
-  if(!input.value.trim()) return;
-  addMessage({who:'user', text: input.value.trim()}).then(()=>{
-    addMessage({who:'bot', text:"This concept demo replays a scripted conversation — a live model isn't connected here."});
-  });
+  const text = input.value.trim();
+  if (!text) return;
   input.value = '';
+  addMessage({who:'user', text}).then(() => {
+    const reply = getBotResponse(text);
+    addMessage({who:'bot', text: reply});
+  });
+};
+
+const aiSendBtn = document.getElementById('aiSend');
+if (aiSendBtn) {
+  aiSendBtn.addEventListener('click', handleAiSend);
+}
+
+const aiInputEl = document.getElementById('aiInput');
+if (aiInputEl) {
+  aiInputEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleAiSend();
+    }
+  });
+}
+
+document.querySelectorAll('.ai-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    const input = document.getElementById('aiInput');
+    if (input) {
+      input.value = pill.textContent.trim();
+      handleAiSend();
+    }
+  });
 });
 
 // ---------- Contact form ----------

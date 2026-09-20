@@ -238,25 +238,30 @@ hamburger.addEventListener('click', ()=> drawer.style.display = 'flex');
 closeDrawer.addEventListener('click', ()=> drawer.style.display = 'none');
 drawer.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> drawer.style.display='none'));
 
-// ---------- Theme toggle (optional) ----------
+// ---------- Theme toggle ----------
+const htmlEl = document.documentElement;
+const applyTheme = (theme) => {
+  htmlEl.setAttribute('data-theme', theme);
+  localStorage.setItem('hw-theme', theme);
+};
+
+const initTheme = localStorage.getItem('hw-theme') || 'light';
+applyTheme(initTheme);
+
+const toggleTheme = () => {
+  const current = htmlEl.getAttribute('data-theme') || 'light';
+  const next = current === 'light' ? 'dark' : 'light';
+  applyTheme(next);
+};
+
 const themeToggle = document.getElementById('themeToggle');
 if (themeToggle) {
-  const html = document.documentElement;
-  const savedTheme = localStorage.getItem('hw-theme');
-  if(savedTheme){
-    html.setAttribute('data-theme', savedTheme);
-    themeToggle.textContent = savedTheme === 'light' ? '◐' : '◑';
-  } else {
-    html.setAttribute('data-theme', 'dark');
-    themeToggle.textContent = '◑';
-  }
-  themeToggle.addEventListener('click', ()=>{
-    const isLight = html.getAttribute('data-theme') === 'light';
-    const nextTheme = isLight ? 'dark' : 'light';
-    html.setAttribute('data-theme', nextTheme);
-    themeToggle.textContent = nextTheme === 'light' ? '◐' : '◑';
-    localStorage.setItem('hw-theme', nextTheme);
-  });
+  themeToggle.addEventListener('click', toggleTheme);
+}
+
+const drawerThemeToggle = document.getElementById('drawerThemeToggle');
+if (drawerThemeToggle) {
+  drawerThemeToggle.addEventListener('click', toggleTheme);
 }
 
 // ---------- Hero logo intro ----------

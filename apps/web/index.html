@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,6 +13,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css" />
+<script>
+  (function(){
+    var t = localStorage.getItem('hw-theme') || 'light';
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
 </head>
 <body>
 
@@ -32,21 +38,38 @@
       <a href="#contact">Contact</a>
     </div>
     <div class="nav-right">
+      <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark theme">
+        <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
       <a href="#contact" class="btn btn-primary" style="padding:10px 20px;font-size:0.85rem;">Get in touch</a>
       <button class="hamburger" id="hamburger" aria-label="Open menu">☰</button>
     </div>
   </div>
 </nav>
 
-<div id="mobileDrawer" style="position:fixed;inset:0;background:rgba(8,9,12,0.96);backdrop-filter:blur(16px);z-index:200;display:none;flex-direction:column;align-items:center;justify-content:center;gap:28px;">
-  <button id="closeDrawer" style="position:absolute;top:24px;right:24px;background:none;border:none;color:#fff;font-size:1.6rem;cursor:pointer;">✕</button>
-  <a href="#about" class="drawer-link" style="font-family:var(--font-display);font-size:1.4rem;color:#fff;">About</a>
-  <a href="#ecosystem" class="drawer-link" style="font-family:var(--font-display);font-size:1.4rem;color:#fff;">Platforms</a>
-  <a href="#ai" class="drawer-link" style="font-family:var(--font-display);font-size:1.4rem;color:#fff;">Halfwave AI</a>
-  <a href="#lab" class="drawer-link" style="font-family:var(--font-display);font-size:1.4rem;color:#fff;">Process</a>
-  <a href="#timeline" class="drawer-link" style="font-family:var(--font-display);font-size:1.4rem;color:#fff;">Roadmap</a>
-  <a href="#team" class="drawer-link" style="font-family:var(--font-display);font-size:1.4rem;color:#fff;">Team</a>
-  <a href="#contact" class="drawer-link" style="font-family:var(--font-display);font-size:1.4rem;color:#fff;">Contact</a>
+<div id="mobileDrawer" style="position:fixed;inset:0;background:var(--bg-canvas);backdrop-filter:blur(16px);z-index:200;display:none;flex-direction:column;align-items:center;justify-content:center;gap:24px;">
+  <button id="closeDrawer" style="position:absolute;top:24px;right:24px;background:none;border:none;color:var(--text-primary);font-size:1.6rem;cursor:pointer;">✕</button>
+  <a href="#about" class="drawer-link" style="font-family:var(--font-display);font-size:1.3rem;color:var(--text-primary);">About</a>
+  <a href="#ecosystem" class="drawer-link" style="font-family:var(--font-display);font-size:1.3rem;color:var(--text-primary);">Platforms</a>
+  <a href="#ai" class="drawer-link" style="font-family:var(--font-display);font-size:1.3rem;color:var(--text-primary);">Halfwave AI</a>
+  <a href="#lab" class="drawer-link" style="font-family:var(--font-display);font-size:1.3rem;color:var(--text-primary);">Process</a>
+  <a href="#timeline" class="drawer-link" style="font-family:var(--font-display);font-size:1.3rem;color:var(--text-primary);">Roadmap</a>
+  <a href="#team" class="drawer-link" style="font-family:var(--font-display);font-size:1.3rem;color:var(--text-primary);">Team</a>
+  <a href="#contact" class="drawer-link" style="font-family:var(--font-display);font-size:1.3rem;color:var(--text-primary);">Contact</a>
+  <button class="btn btn-ghost" id="drawerThemeToggle" style="margin-top:8px;font-size:0.9rem;">Toggle Dark / Light Mode</button>
 </div>
 
 <main id="top">
@@ -54,9 +77,6 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-glow"></div>
-    <div class="hero-pill reveal">
-      <span class="pill-dot"></span> Digital Product Studio &middot; Accepting New Projects for 2026
-    </div>
     <div class="hero-logo reveal" aria-hidden="true">
       <img id="heroLogoImg" src="logo.png" alt="Halfwave Platforms Logo" />
     </div>
