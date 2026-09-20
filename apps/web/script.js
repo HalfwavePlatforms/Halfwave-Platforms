@@ -137,10 +137,27 @@ processItems.forEach((item, index) => {
 
 // ---------- Render: timeline ----------
 const timelineRow = document.getElementById('timelineRow');
-timeline.forEach(t=>{
+timeline.forEach(t => {
   const node = document.createElement('div');
-  node.className = 'tl-node reveal' + (t.future ? ' future' : '');
-  node.innerHTML = `<div class="tl-marker"></div><span class="tl-label">${t.label}</span><h4>${t.title}</h4><p>${t.desc}</p>`;
+  const isPresent = t.label === '2026' || t.title.toLowerCase().includes('present');
+  const stateClass = t.future ? 'is-future' : isPresent ? 'is-present' : 'is-completed';
+  node.className = `tl-node reveal ${stateClass}`;
+
+  const badgeText = isPresent ? '2026 · PRESENT' : t.label;
+
+  node.innerHTML = `
+    <div class="tl-marker" aria-hidden="true">
+      <span class="tl-marker-dot"></span>
+    </div>
+    <div class="tl-card">
+      <div class="tl-badge-row">
+        <span class="tl-badge ${stateClass}">${badgeText}</span>
+        ${isPresent ? '<span class="tl-status-live"><span class="status-dot"></span>Active Beta</span>' : ''}
+      </div>
+      <h4>${t.title}</h4>
+      <p>${t.desc}</p>
+    </div>
+  `;
   timelineRow.appendChild(node);
 });
 
