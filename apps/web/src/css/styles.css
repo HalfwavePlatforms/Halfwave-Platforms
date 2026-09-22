@@ -17,16 +17,16 @@
   --text-muted:#64748B;
   --text-faint:#94A3B8;
 
-  /* Accent Color (Brand Blue) */
-  --hw-blue:#2A3EF5;
-  --hw-blue-hover:#1F32D9;
-  --hw-blue-active:#1725B3;
-  --hw-blue-glow:rgba(42,62,245,0.18);
-  --hw-blue-subtle:rgba(42,62,245,0.07);
+  /* Accent Color (Logo Electric Blue) */
+  --hw-blue:#003DF8;
+  --hw-blue-hover:#0031D6;
+  --hw-blue-active:#0024A8;
+  --hw-blue-glow:rgba(0,61,248,0.22);
+  --hw-blue-subtle:rgba(0,61,248,0.08);
 
   /* Card Shadows */
   --card-shadow:0 1px 3px rgba(15,23,42,0.05), 0 10px 24px -6px rgba(15,23,42,0.04);
-  --card-shadow-hover:0 20px 40px -12px rgba(15,23,42,0.1), 0 0 24px rgba(42,62,245,0.08);
+  --card-shadow-hover:0 20px 40px -12px rgba(15,23,42,0.1), 0 0 24px rgba(0,61,248,0.08);
 
   /* Typography Families */
   --font-sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
@@ -51,7 +51,7 @@
   /* Hairline Borders */
   --border-subtle:rgba(255,255,255,0.08);
   --border-hover:rgba(255,255,255,0.16);
-  --border-active:rgba(42,62,245,0.5);
+  --border-active:rgba(0,61,248,0.5);
 
   /* Typography Colors */
   --text-primary:#FFFFFF;
@@ -59,26 +59,34 @@
   --text-muted:#8A8F98;
   --text-faint:#525660;
 
-  /* Accent Color (Brand Blue) */
-  --hw-blue:#2A3EF5;
-  --hw-blue-hover:#3E51FF;
-  --hw-blue-active:#1F32D9;
-  --hw-blue-glow:rgba(42,62,245,0.35);
-  --hw-blue-subtle:rgba(42,62,245,0.12);
+  /* Accent Color (Logo Electric Blue) */
+  --hw-blue:#003DF8;
+  --hw-blue-hover:#1F54FF;
+  --hw-blue-active:#002BD6;
+  --hw-blue-glow:rgba(0,61,248,0.38);
+  --hw-blue-subtle:rgba(0,61,248,0.14);
 
   /* Card Shadows */
   --card-shadow:0 4px 20px rgba(0,0,0,0.25);
-  --card-shadow-hover:0 20px 40px rgba(0,0,0,0.4), 0 0 24px rgba(42,62,245,0.08);
+  --card-shadow-hover:0 20px 40px rgba(0,0,0,0.4), 0 0 24px rgba(0,61,248,0.08);
 }
 
 *{box-sizing:border-box;}
 ::selection{
-  background:var(--hw-blue);
-  color:#FFFFFF;
+  background:#003DF8 !important;
+  color:#FFFFFF !important;
 }
 ::-moz-selection{
-  background:var(--hw-blue);
-  color:#FFFFFF;
+  background:#003DF8 !important;
+  color:#FFFFFF !important;
+}
+*::selection{
+  background:#003DF8 !important;
+  color:#FFFFFF !important;
+}
+*::-moz-selection{
+  background:#003DF8 !important;
+  color:#FFFFFF !important;
 }
 html{scroll-behavior:smooth;}
 body{
