@@ -37,4 +37,4 @@ This automatically spins up:
 
 ### Frontend Web (`apps/web`)
 - **Vercel / Cloudflare Pages / AWS S3 + CloudFront / Netlify**
-- Serve static files from `apps/web/` with fallback to `index.html`.
+- Serve static files from `apps/web/` with fallback to `index.html'
