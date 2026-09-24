@@ -11,7 +11,7 @@ The Halfwave API is built on **NestJS 11** with global prefix `/api` and version
 ## 2. Core Endpoints
 
 ### Contacts (`/api/v1/contacts`)
-- `POST /api/v1/contacts`: Public contact enquiry submission.
+- `POST /api/v1/contacts`: Public contact enquiry submission..
   ```json
   {
     "name": "Alice Smith",
