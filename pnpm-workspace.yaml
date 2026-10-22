@@ -10,12 +10,4 @@ allowBuilds:
   prisma: true
   '@scarf/scarf': true
   unrs-resolver: true
-
-onlyBuiltDependencies:
-  - '@prisma/client'
-  - '@prisma/engines'
-  - 'bcrypt'
-  - 'prisma'
-  - 'msgpackr-extract'
-  - '@scarf/scarf'
-  - 'unrs-resolver'
+  esbuild: true
