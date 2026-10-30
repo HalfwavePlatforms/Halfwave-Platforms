@@ -10,6 +10,7 @@ export default defineConfig(({ mode }) => {
     server: {
       port,
       strictPort: false,
+      allowedHosts: true,
     },
   };
 });
