@@ -72,7 +72,7 @@ products.forEach((p, i) => {
       </span>
     </div>
     <div class="eco-cat">${p.cat}</div>
-    <h4>${p.name}</h4>
+    <h3>${p.name}</h3>
     <p class="eco-desc">${p.desc}</p>
     <div class="eco-detail">${p.detail}</div>
     <div class="eco-expand-row">
@@ -129,7 +129,7 @@ processItems.forEach((item, index) => {
       <div class="process-icon-box" aria-hidden="true">${icon}</div>
     </div>
     <div class="process-phase-tag">Phase ${stepNum} / 06</div>
-    <h4>${item.title}</h4>
+    <h3>${item.title}</h3>
     <p>${item.desc}</p>
   `;
   processGrid.appendChild(card);
@@ -154,7 +154,7 @@ timeline.forEach(t => {
         <span class="tl-badge ${stateClass}">${badgeText}</span>
         ${isPresent ? '<span class="tl-status-live"><span class="status-dot"></span>Active Beta</span>' : ''}
       </div>
-      <h4>${t.title}</h4>
+      <h3>${t.title}</h3>
       <p>${t.desc}</p>
     </div>
   `;
@@ -175,7 +175,7 @@ team.forEach(m => {
     <div class="team-avatar-box">
       <div class="avatar">${avatarContent}</div>
     </div>
-    <h4>${m.name}</h4>
+    <h3>${m.name}</h3>
     <div class="team-role">${m.role}</div>
     <p class="bio">${m.bio}</p>
   `;
@@ -189,14 +189,14 @@ jobs.forEach(j => {
   row.className = 'job-row reveal';
   row.innerHTML = `
     <div class="job-info">
-      <h4>${j.title}</h4>
+      <h3>${j.title}</h3>
       <div class="job-meta">
         <span class="job-pill"><span class="job-dot"></span>${j.team}</span>
         <span class="job-pill">${j.location}</span>
         <span class="job-pill">Open Position</span>
       </div>
     </div>
-    <a href="#contact" class="btn btn-ghost job-apply-btn">Apply Now →</a>
+    <a href="#contact" class="btn btn-primary btn-sm job-apply-btn">Apply Now &rarr;</a>
   `;
   jobsList.appendChild(row);
 });
@@ -208,7 +208,7 @@ openInvite.innerHTML = `
     <strong>Don't see your exact role?</strong>
     <span>We're always looking for exceptional engineers, designers, and AI specialists.</span>
   </div>
-  <a href="#contact" class="btn btn-ghost" style="font-size:0.85rem;padding:9px 18px;">General Application →</a>
+  <a href="#contact" class="btn btn-ghost btn-sm" style="font-size:0.875rem;padding:0 20px;">General Application &rarr;</a>
 `;
 jobsList.appendChild(openInvite);
 
@@ -224,28 +224,101 @@ const io = new IntersectionObserver((entries)=>{
 },{threshold:0.12});
 revealEls.forEach(el=>io.observe(el));
 
-// ---------- Navbar scroll state ----------
+// ---------- Navbar scroll state & Scroll-Spy ----------
 const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', ()=>{
-  navbar.classList.toggle('scrolled', window.scrollY > 40);
-},{passive:true});
+const navLinks = document.querySelectorAll('.nav-links a[href^="#"], .drawer-nav-list a[href^="#"]');
+const spySections = document.querySelectorAll('section[id], main[id]');
 
-// ---------- Mobile drawer ----------
+function updateNavbarAndScrollSpy() {
+  if (navbar) {
+    navbar.classList.toggle('scrolled', window.scrollY > 30);
+  }
+
+  let currentId = '';
+  const scrollPos = window.scrollY + 120;
+
+  spySections.forEach(section => {
+    const top = section.offsetTop;
+    const height = section.offsetHeight;
+    if (scrollPos >= top && scrollPos < top + height) {
+      currentId = section.getAttribute('id');
+    }
+  });
+
+  navLinks.forEach(link => {
+    const href = link.getAttribute('href');
+    if (href === `#${currentId}`) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
+}
+
+window.addEventListener('scroll', updateNavbarAndScrollSpy, { passive: true });
+window.addEventListener('load', updateNavbarAndScrollSpy);
+
+// ---------- Mobile Drawer (Meta Accessible Pattern) ----------
 const hamburger = document.getElementById('hamburger');
 const drawer = document.getElementById('mobileDrawer');
 const closeDrawer = document.getElementById('closeDrawer');
-hamburger.addEventListener('click', ()=> drawer.style.display = 'flex');
-closeDrawer.addEventListener('click', ()=> drawer.style.display = 'none');
-drawer.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> drawer.style.display='none'));
 
-// ---------- Theme toggle ----------
+function openDrawer() {
+  if (!drawer) return;
+  drawer.classList.add('open');
+  drawer.setAttribute('aria-hidden', 'false');
+  drawer.removeAttribute('inert');
+  if (hamburger) hamburger.setAttribute('aria-expanded', 'true');
+  document.body.style.overflow = 'hidden';
+  // Focus first focusable element inside drawer for keyboard users
+  const firstFocusable = drawer.querySelector('a, button');
+  if (firstFocusable) firstFocusable.focus();
+}
+
+function shutDrawer() {
+  if (!drawer) return;
+  drawer.classList.remove('open');
+  drawer.setAttribute('aria-hidden', 'true');
+  drawer.setAttribute('inert', '');
+  if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+  // Return focus to the trigger button
+  if (hamburger) hamburger.focus();
+}
+
+if (hamburger) hamburger.addEventListener('click', openDrawer);
+if (closeDrawer) closeDrawer.addEventListener('click', shutDrawer);
+if (drawer) {
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', shutDrawer));
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) {
+      shutDrawer();
+    }
+  });
+}
+
+// ---------- Theme toggle with safe localStorage ----------
 const htmlEl = document.documentElement;
 const applyTheme = (theme) => {
   htmlEl.setAttribute('data-theme', theme);
-  localStorage.setItem('hw-theme', theme);
+  try {
+    localStorage.setItem('hw-theme', theme);
+  } catch (e) {
+    /* ignore private mode errors */
+  }
 };
 
-const initTheme = localStorage.getItem('hw-theme') || 'light';
+let initTheme = 'light';
+try {
+  const saved = localStorage.getItem('hw-theme');
+  if (saved) {
+    initTheme = saved;
+  } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    initTheme = 'dark';
+  }
+} catch (e) {
+  initTheme = 'light';
+}
 applyTheme(initTheme);
 
 const toggleTheme = () => {
@@ -409,9 +482,30 @@ document.querySelectorAll('.ai-pill').forEach(pill => {
   });
 });
 
-// ---------- Contact form ----------
-document.getElementById('contactForm').addEventListener('submit', (e)=>{
-  e.preventDefault();
-  document.getElementById('formNote').classList.add('show');
-  e.target.reset();
-});
+// ---------- Contact form (Meta Inline Validation & State) ----------
+const contactForm = document.getElementById('contactForm');
+const formNote = document.getElementById('formNote');
+
+if (contactForm && formNote) {
+  contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!contactForm.checkValidity()) {
+      contactForm.reportValidity();
+      return;
+    }
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+    }
+    setTimeout(() => {
+      formNote.classList.add('show');
+      formNote.setAttribute('role', 'alert');
+      contactForm.reset();
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send message →';
+      }
+    }, 400);
+  });
+}

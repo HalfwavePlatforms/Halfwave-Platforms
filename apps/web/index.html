@@ -15,27 +15,40 @@
 <link rel="stylesheet" href="styles.css" />
 <script>
   (function(){
-    var t = localStorage.getItem('hw-theme') || 'light';
-    document.documentElement.setAttribute('data-theme', t);
+    try {
+      var saved = localStorage.getItem('hw-theme');
+      if (saved) {
+        document.documentElement.setAttribute('data-theme', saved);
+      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    } catch(e) {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
   })();
 </script>
 </head>
 <body>
 
-<nav class="navbar" id="navbar">
+<!-- Skip to main content: keyboard / screen-reader shortcut -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<nav class="navbar" id="navbar" role="navigation" aria-label="Main Navigation">
   <div class="nav-inner">
     <a href="#top" class="logo-mark" aria-label="Halfwave Platforms home">
       <img class="logo-img" src="logo.png" alt="Halfwave Platforms Logo" />
       <span><span class="logo-half">Half</span><span class="logo-wave">wave</span></span>
     </a>
-    <div class="nav-links">
-      <a href="#about">About</a>
-      <a href="#ecosystem">Platforms</a>
-      <a href="#ai">Halfwave AI</a>
-      <a href="#lab">Process</a>
-      <a href="#timeline">Roadmap</a>
-      <a href="#team">Team</a>
-      <a href="#contact">Contact</a>
+    <div class="nav-links" id="navLinks" role="menubar">
+      <a href="#about" role="menuitem">About</a>
+      <a href="#ecosystem" role="menuitem">Platforms</a>
+      <a href="#ai" role="menuitem">Halfwave AI</a>
+      <a href="#lab" role="menuitem">Process</a>
+      <a href="#timeline" role="menuitem">Roadmap</a>
+      <a href="#team" role="menuitem">Team</a>
+      <a href="#contact" role="menuitem">Contact</a>
     </div>
     <div class="nav-right">
       <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark theme">
@@ -54,57 +67,99 @@
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
         </svg>
       </button>
-      <a href="#contact" class="btn btn-primary" style="padding:10px 20px;font-size:0.85rem;">Get in touch</a>
-      <button class="hamburger" id="hamburger" aria-label="Open menu">☰</button>
+      <a href="#contact" class="btn btn-primary btn-sm nav-cta">Get in touch</a>
+      <button class="hamburger" id="hamburger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileDrawer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
     </div>
   </div>
 </nav>
 
-<div id="mobileDrawer" style="position:fixed;inset:0;background:var(--bg-canvas);backdrop-filter:blur(16px);z-index:200;display:none;flex-direction:column;align-items:center;justify-content:center;gap:24px;">
-  <button id="closeDrawer" style="position:absolute;top:24px;right:24px;background:none;border:none;color:var(--text-primary);font-size:1.6rem;cursor:pointer;">✕</button>
-  <a href="#about" class="drawer-link" style="font-family:var(--font-display);font-size:1.3rem;color:var(--text-primary);">About</a>
-  <a href="#ecosystem" class="drawer-link" style="font-family:var(--font-display);font-size:1.3rem;color:var(--text-primary);">Platforms</a>
-  <a href="#ai" class="drawer-link" style="font-family:var(--font-display);font-size:1.3rem;color:var(--text-primary);">Halfwave AI</a>
-  <a href="#lab" class="drawer-link" style="font-family:var(--font-display);font-size:1.3rem;color:var(--text-primary);">Process</a>
-  <a href="#timeline" class="drawer-link" style="font-family:var(--font-display);font-size:1.3rem;color:var(--text-primary);">Roadmap</a>
-  <a href="#team" class="drawer-link" style="font-family:var(--font-display);font-size:1.3rem;color:var(--text-primary);">Team</a>
-  <a href="#contact" class="drawer-link" style="font-family:var(--font-display);font-size:1.3rem;color:var(--text-primary);">Contact</a>
-  <button class="btn btn-ghost" id="drawerThemeToggle" style="margin-top:8px;font-size:0.9rem;">Toggle Dark / Light Mode</button>
+<div id="mobileDrawer" class="mobile-drawer" aria-hidden="true" inert role="dialog" aria-modal="true" aria-label="Mobile Navigation">
+  <div class="drawer-header">
+    <a href="#top" class="logo-mark" aria-label="Halfwave Platforms home">
+      <img class="logo-img" src="logo.png" alt="Halfwave Platforms Logo" />
+      <span><span class="logo-half">Half</span><span class="logo-wave">wave</span></span>
+    </a>
+    <div class="drawer-header-actions">
+      <button class="theme-toggle-btn" id="drawerThemeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <button id="closeDrawer" class="drawer-close-btn" aria-label="Close navigation menu">✕</button>
+    </div>
+  </div>
+  <div class="drawer-nav-list">
+    <a href="#about" class="drawer-link">About</a>
+    <a href="#ecosystem" class="drawer-link">Platforms</a>
+    <a href="#ai" class="drawer-link">Halfwave AI</a>
+    <a href="#lab" class="drawer-link">Process</a>
+    <a href="#timeline" class="drawer-link">Roadmap</a>
+    <a href="#team" class="drawer-link">Team</a>
+    <a href="#contact" class="drawer-link">Contact</a>
+  </div>
+  <div class="drawer-bottom">
+    <a href="#contact" class="btn btn-primary btn-lg drawer-cta">Get in touch</a>
+  </div>
 </div>
 
-<main id="top">
+<main id="main-content" tabindex="-1">
 
   <!-- HERO -->
-  <section class="hero">
-    <div class="hero-glow"></div>
-    <div class="hero-logo reveal" aria-hidden="true">
-      <img id="heroLogoImg" src="logo.png" alt="Halfwave Platforms Logo" />
+  <section class="hero" id="hero">
+    <div class="hero-bg-accent" aria-hidden="true"></div>
+    <div class="wrap hero-wrap">
+      <div class="hero-inner">
+        <div class="hero-logo-wrapper reveal">
+          <div class="hero-logo" aria-hidden="true">
+            <img id="heroLogoImg" src="logo.png" alt="Halfwave Platforms Logo" />
+          </div>
+        </div>
+        <h1 class="reveal">Engineering the next wave of <span class="hero-highlight">digital products</span>.</h1>
+        <p class="sub reveal">Halfwave Platforms is a digital product studio. We partner with ambitious startups and enterprises to design, architect, and deploy high-performance web applications, mobile platforms, and AI systems.</p>
+        <div class="hero-ctas reveal">
+          <a href="#ecosystem" class="btn btn-primary btn-lg">Explore Services <span aria-hidden="true">&rarr;</span></a>
+          <a href="#contact" class="btn btn-secondary btn-lg">Get in touch</a>
+        </div>
+      </div>
     </div>
-    <h1 class="reveal">Engineering the next wave of <span style="color:var(--hw-blue);">digital products</span>.</h1>
-    <p class="sub reveal">Halfwave Platforms is a digital product studio. We partner with ambitious startups and enterprises to design, architect, and deploy high-performance web applications, mobile platforms, and AI systems.</p>
-    <div class="hero-ctas reveal">
-      <a href="#ecosystem" class="btn btn-primary">Explore Services <span style="font-size:1.1em;line-height:0.8;">&rarr;</span></a>
-      <a href="#contact" class="btn btn-ghost">Get in touch</a>
-    </div>
-    <div class="hero-metrics reveal">
-      <div class="metric-item">
-        <span class="metric-value">8 Core</span>
-        <span class="metric-label">Disciplines</span>
-      </div>
-      <div class="metric-divider"></div>
-      <div class="metric-item">
-        <span class="metric-value">Full-Stack</span>
-        <span class="metric-label">Architecture</span>
-      </div>
-      <div class="metric-divider"></div>
-      <div class="metric-item">
-        <span class="metric-value">AI-First</span>
-        <span class="metric-label">Engineering</span>
-      </div>
-      <div class="metric-divider"></div>
-      <div class="metric-item">
-        <span class="metric-value">Cloud Native</span>
-        <span class="metric-label">DevOps &amp; SLA</span>
+    <div class="wrap">
+      <div class="hero-metrics reveal">
+        <div class="metric-item">
+          <span class="metric-value">8 Core</span>
+          <span class="metric-label">Disciplines</span>
+        </div>
+        <div class="metric-divider" aria-hidden="true"></div>
+        <div class="metric-item">
+          <span class="metric-value">Full-Stack</span>
+          <span class="metric-label">Architecture</span>
+        </div>
+        <div class="metric-divider" aria-hidden="true"></div>
+        <div class="metric-item">
+          <span class="metric-value">AI-First</span>
+          <span class="metric-label">Engineering</span>
+        </div>
+        <div class="metric-divider" aria-hidden="true"></div>
+        <div class="metric-item">
+          <span class="metric-value">Cloud Native</span>
+          <span class="metric-label">DevOps &amp; SLA</span>
+        </div>
       </div>
     </div>
   </section>
@@ -128,7 +183,7 @@
             </div>
             <span class="about-tag">Mission</span>
           </div>
-          <h4>Empower businesses.</h4>
+          <h3>Empower businesses.</h3>
           <p>Our mission is to empower businesses through innovative technology solutions that combine engineering, creativity, and artificial intelligence.</p>
         </div>
 
@@ -143,7 +198,7 @@
             </div>
             <span class="about-tag">Vision</span>
           </div>
-          <h4>Trusted global partner.</h4>
+          <h3>Trusted global partner.</h3>
           <p>Our vision is to become a trusted global technology partner delivering world-class digital experiences.</p>
         </div>
 
@@ -157,7 +212,7 @@
             </div>
             <span class="about-tag">Why Choose Us</span>
           </div>
-          <h4>Confident delivery.</h4>
+          <h3>Confident delivery.</h3>
           <p>Experienced Development Team · Modern Technologies · AI-Powered Solutions · Scalable Architecture · High Performance · Responsive Design.</p>
         </div>
 
@@ -170,7 +225,7 @@
             </div>
             <span class="about-tag">Service Promise</span>
           </div>
-          <h4>Execution with support.</h4>
+          <h3>Execution with support.</h3>
           <p>Timely Delivery · Continuous Support · Premium agency-level execution for growth-focused digital products.</p>
         </div>
       </div>
@@ -275,12 +330,14 @@
   <!-- CAREERS -->
   <section id="careers">
     <div class="wrap">
-      <div class="section-head reveal">
-        <span class="eyebrow">Careers</span>
-        <h2>Build the next wave with us.</h2>
-        <p>We hire people who want to own hard problems across an entire portfolio, not just one product &mdash; and who'd rather ship something rigorous than something loud.</p>
+      <div class="careers-banner reveal">
+        <div class="section-head careers-head">
+          <span class="eyebrow eyebrow-on-dark">Careers</span>
+          <h2>Build the next wave with us.</h2>
+          <p>We hire people who want to own hard problems across an entire portfolio, not just one product &mdash; and who'd rather ship something rigorous than something loud.</p>
+        </div>
+        <div id="jobsList"></div>
       </div>
-      <div id="jobsList"></div>
     </div>
   </section>
 
@@ -376,32 +433,35 @@
 
 </main>
 
-<footer>
+<footer class="meta-footer" role="contentinfo">
   <div class="wrap">
     <div class="footer-grid">
       <div class="footer-brand-col">
-        <a href="#top" class="logo-mark" style="margin-bottom:14px;">
+        <a href="#top" class="logo-mark" style="margin-bottom:16px;" aria-label="Halfwave Platforms home">
           <img class="logo-img" src="logo.png" alt="Halfwave Platforms Logo" />
           <span><span class="logo-half">Half</span><span class="logo-wave">wave</span></span>
         </a>
         <p class="footer-tagline">Digital product studio engineering scalable web applications, mobile platforms, AI systems, and cloud infrastructure.</p>
+        <div class="footer-status-pill">
+          <span class="status-dot"></span> <span>Engineering the next wave</span>
+        </div>
       </div>
       <div class="footer-col">
-        <h5>Company</h5>
+        <h3 class="footer-col-heading">Company</h3>
         <a href="#about">About Studio</a>
         <a href="#team">Leadership &amp; Team</a>
         <a href="#careers">Careers &amp; Open Roles</a>
         <a href="#lab">Process &amp; Workflow</a>
       </div>
       <div class="footer-col">
-        <h5>Capabilities</h5>
+        <h3 class="footer-col-heading">Capabilities</h3>
         <a href="#ecosystem">Web Development</a>
         <a href="#ecosystem">Mobile Applications</a>
         <a href="#ai">Halfwave AI Flagship</a>
         <a href="#ecosystem">Cloud &amp; DevOps</a>
       </div>
       <div class="footer-col">
-        <h5>Connect</h5>
+        <h3 class="footer-col-heading">Connect</h3>
         <a href="#contact">Get in touch</a>
         <a href="#timeline">Strategic Roadmap</a>
         <a href="#top">Back to top ↑</a>
@@ -411,9 +471,9 @@
       <span>© 2026 Halfwave Platforms, Inc. All rights reserved.</span>
       <div class="footer-bottom-links">
         <a href="#contact">Privacy</a>
-        <span class="dot-sep">·</span>
+        <span class="dot-sep" aria-hidden="true">·</span>
         <a href="#contact">Terms</a>
-        <span class="dot-sep">·</span>
+        <span class="dot-sep" aria-hidden="true">·</span>
         <a href="#top">halfwaveplatforms.com</a>
       </div>
     </div>
