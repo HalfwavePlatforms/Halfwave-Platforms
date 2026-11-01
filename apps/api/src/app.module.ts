@@ -12,6 +12,7 @@ import { PermissionsModule } from './modules/permissions/permissions.module';
 import { ContactModule } from './modules/contact/contact.module';
 import { EmailModule } from './modules/email/email.module';
 import { ServicesModule } from './modules/services/services.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { RequestIdMiddleware } from './common/middleware/request-id.middleware';
 import { RequestLoggerMiddleware } from './common/middleware/request-logger.middleware';
 
@@ -60,6 +61,9 @@ import { RequestLoggerMiddleware } from './common/middleware/request-logger.midd
 
     // Services Catalog Module
     ServicesModule,
+
+    // Authentication & Authorization Module
+    AuthModule,
   ],
   providers: [
     // Enable Global Rate Limiting across all routes

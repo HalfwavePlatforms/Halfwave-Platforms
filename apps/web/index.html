@@ -396,30 +396,49 @@
           </div>
         </div>
 
-        <form class="contact-panel reveal" id="contactForm">
+        <form class="contact-panel reveal" id="contactForm" novalidate>
           <div class="field">
             <label for="cname">Full Name</label>
-            <input type="text" id="cname" placeholder="Alex Morgan" required />
+            <input type="text" id="cname" name="cname" placeholder="Alex Morgan" required minlength="2" maxlength="100" autocomplete="name" />
           </div>
           <div class="field">
             <label for="cemail">Work Email</label>
-            <input type="email" id="cemail" placeholder="alex@company.com" required />
+            <input type="email" id="cemail" name="cemail" placeholder="alex@company.com" required autocomplete="email" />
+          </div>
+          <div class="field">
+            <label for="cphone">Phone <span style="font-weight:400;opacity:0.6;">(optional)</span></label>
+            <input type="tel" id="cphone" name="cphone" placeholder="+91 98765 43210" autocomplete="tel" />
+          </div>
+          <div class="field">
+            <label for="ccompany">Company <span style="font-weight:400;opacity:0.6;">(optional)</span></label>
+            <input type="text" id="ccompany" name="ccompany" placeholder="Acme Corp" autocomplete="organization" />
           </div>
           <div class="field">
             <label for="cservice">Discipline / Interest</label>
-            <select id="cservice" class="field-select">
-              <option value="web">Web Development &amp; Architecture</option>
-              <option value="mobile">Mobile Application Development</option>
-              <option value="ai">AI, LLM &amp; Machine Learning</option>
-              <option value="data">Data Analytics &amp; BI Dashboards</option>
-              <option value="design">UI/UX &amp; Product Design</option>
-              <option value="cloud">Cloud Infrastructure &amp; DevOps</option>
-              <option value="other">Full-Stack Digital Product Studio</option>
+            <select id="cservice" name="cservice" class="field-select">
+              <option value="Web Development &amp; Architecture">Web Development &amp; Architecture</option>
+              <option value="Mobile Application Development">Mobile Application Development</option>
+              <option value="AI, LLM &amp; Machine Learning">AI, LLM &amp; Machine Learning</option>
+              <option value="Data Analytics &amp; BI Dashboards">Data Analytics &amp; BI Dashboards</option>
+              <option value="UI/UX &amp; Product Design">UI/UX &amp; Product Design</option>
+              <option value="Cloud Infrastructure &amp; DevOps">Cloud Infrastructure &amp; DevOps</option>
+              <option value="Full-Stack Digital Product Studio">Full-Stack Digital Product Studio</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="cbudget">Budget Range <span style="font-weight:400;opacity:0.6;">(optional)</span></label>
+            <select id="cbudget" name="cbudget" class="field-select">
+              <option value="">Select a range…</option>
+              <option value="Under $5,000">Under $5,000</option>
+              <option value="$5,000 - $15,000">$5,000 – $15,000</option>
+              <option value="$15,000 - $50,000">$15,000 – $50,000</option>
+              <option value="$50,000+">$50,000+</option>
+              <option value="Open to discussion">Open to discussion</option>
             </select>
           </div>
           <div class="field">
             <label for="cmessage">Project Scope &amp; Goals</label>
-            <textarea id="cmessage" rows="4" placeholder="Describe your product vision, timeline, or key technical challenges…" required></textarea>
+            <textarea id="cmessage" name="cmessage" rows="4" placeholder="Describe your product vision, timeline, or key technical challenges…" required minlength="10" maxlength="2000"></textarea>
           </div>
           <button type="submit" class="btn btn-primary contact-submit-btn">Send message →</button>
           <div class="form-note" id="formNote">

@@ -1,5 +1,26 @@
-// ---------- Data ----------
-const products = [
+// ---------- API Configuration ----------
+const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:3000/api/v1'
+  : 'https://api.halfwaveplatforms.com/api/v1';
+
+/**
+ * Minimal fetch wrapper — returns parsed JSON { success, data, meta }
+ * Throws with a human-readable message on API or network errors.
+ */
+async function apiRequest(path, options = {}) {
+  const headers = { 'Content-Type': 'application/json', ...options.headers };
+  const res = await fetch(`${API_BASE}${path}`, { ...options, headers,
+    body: options.body ? JSON.stringify(options.body) : undefined });
+  const json = await res.json().catch(() => ({ success: false, message: `HTTP ${res.status}` }));
+  if (!res.ok || !json.success) {
+    const msgs = Array.isArray(json.message) ? json.message.join(', ') : (json.message || `Request failed (${res.status})`);
+    throw new Error(msgs);
+  }
+  return json;
+}
+
+// ---------- Data (static fallback — replaced by API when available) ----------
+const PLATFORMS_FALLBACK = [
   {name:"Web Development", cat:"Professional Services", status:"live", desc:"Custom Business Websites, Corporate Websites, Portfolio Websites, Landing Pages, E-Commerce Websites, Admin Dashboards, CMS Development, Progressive Web Apps (PWA).", detail:"Modern web platforms designed to present, convert, and scale your brand online."},
   {name:"Mobile App Development", cat:"Professional Services", status:"live", desc:"Android Applications, iOS Applications, Flutter Apps, React Native Apps, Enterprise Applications, Business Management Apps, E-Commerce Apps.", detail:"Cross-platform and native mobile experiences for business efficiency and customer growth."},
   {name:"AI & Machine Learning", cat:"Professional Services", status:"live", desc:"AI Chatbots, Custom AI Solutions, Large Language Model Integrations, AI Automation, Computer Vision, Recommendation Systems, Predictive Analytics, Generative AI Solutions.", detail:"Intelligent systems that streamline operations and unlock automation opportunities."},
@@ -52,56 +73,87 @@ const productIcons = {
 };
 
 const ecoGrid = document.getElementById('ecoGrid');
-products.forEach((p, i) => {
-  const card = document.createElement('div');
-  card.className = 'eco-card reveal';
-  card.setAttribute('tabindex', '0');
-  card.setAttribute('role', 'button');
-  card.setAttribute('aria-expanded', 'false');
 
-  const statusClass = p.status === 'live' ? 'status-live' : p.status === 'dev' ? 'status-dev' : 'status-research';
-  const statusLabel = p.status === 'live' ? 'Live' : p.status === 'dev' ? 'In Development' : 'Research';
-  const iconSvg = productIcons[p.name] || `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>`;
+function renderEcosystem(items) {
+  if (!ecoGrid) return;
+  ecoGrid.innerHTML = '';
+  items.forEach((p, i) => {
+    const card = document.createElement('div');
+    card.className = window.innerWidth <= 768 ? 'eco-card reveal in' : 'eco-card reveal';
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-expanded', 'false');
 
-  card.innerHTML = `
-    <div class="eco-top-row">
-      <div class="eco-icon-box" aria-hidden="true">${iconSvg}</div>
-      <span class="status-tag ${statusClass}">
-        <span class="status-dot"></span>
-        ${statusLabel}
-      </span>
-    </div>
-    <div class="eco-cat">${p.cat}</div>
-    <h3>${p.name}</h3>
-    <p class="eco-desc">${p.desc}</p>
-    <div class="eco-detail">${p.detail}</div>
-    <div class="eco-expand-row">
-      <span class="eco-expand-label">Platform details</span>
-      <svg class="eco-expand-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="6 9 12 15 18 9"></polyline>
-      </svg>
-    </div>
-  `;
+    const statusClass = p.status === 'live' ? 'status-live' : p.status === 'dev' ? 'status-dev' : 'status-research';
+    const statusLabel = p.status === 'live' ? 'Live' : p.status === 'dev' ? 'In Development' : 'Research';
+    const iconSvg = productIcons[p.name] || `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>`;
 
-  const toggleOpen = () => {
-    const isOpen = card.classList.toggle('open');
-    card.setAttribute('aria-expanded', String(isOpen));
-    const label = card.querySelector('.eco-expand-label');
-    if (label) {
-      label.textContent = isOpen ? 'Hide details' : 'Platform details';
-    }
-  };
+    card.innerHTML = `
+      <div class="eco-top-row">
+        <div class="eco-icon-box" aria-hidden="true">${iconSvg}</div>
+        <span class="status-tag ${statusClass}">
+          <span class="status-dot"></span>
+          ${statusLabel}
+        </span>
+      </div>
+      <div class="eco-cat">${p.cat || 'Professional Services'}</div>
+      <h3>${p.name}</h3>
+      <p class="eco-desc">${p.desc}</p>
+      <div class="eco-detail">${p.detail}</div>
+      <div class="eco-expand-row">
+        <span class="eco-expand-label">Platform details</span>
+        <svg class="eco-expand-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </div>
+    `;
 
-  card.addEventListener('click', toggleOpen);
-  card.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      toggleOpen();
-    }
+    const toggleOpen = () => {
+      const isOpen = card.classList.toggle('open');
+      card.setAttribute('aria-expanded', String(isOpen));
+      const label = card.querySelector('.eco-expand-label');
+      if (label) {
+        label.textContent = isOpen ? 'Hide details' : 'Platform details';
+      }
+    };
+
+    card.addEventListener('click', toggleOpen);
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleOpen();
+      }
+    });
+
+    ecoGrid.appendChild(card);
   });
+}
 
-  ecoGrid.appendChild(card);
-});
+// Initial render with fallback immediately (prevents layout shift)
+renderEcosystem(PLATFORMS_FALLBACK);
+
+// Hydrate dynamically from API if available
+async function loadServices() {
+  try {
+    const res = await fetch(`${API_BASE}/services`);
+    if (!res.ok) return;
+    const json = await res.json();
+    if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+      const mapped = json.data.map(s => ({
+        name: s.title,
+        cat: 'Professional Services',
+        status: s.isActive ? 'live' : 'dev',
+        desc: s.summary,
+        detail: s.description,
+      }));
+      renderEcosystem(mapped);
+    }
+  } catch (err) {
+    // Graceful offline/dev fallback
+    console.debug('Services API not connected yet, using static fallback.');
+  }
+}
+loadServices();
 
 // ---------- Render: process ----------
 const processIcons = [
@@ -217,11 +269,11 @@ const revealEls = document.querySelectorAll('.reveal');
 const io = new IntersectionObserver((entries)=>{
   entries.forEach((e,idx)=>{
     if(e.isIntersecting){
-      setTimeout(()=> e.target.classList.add('in'), (idx%6)*70);
+      setTimeout(()=> e.target.classList.add('in'), (idx%4)*50);
       io.unobserve(e.target);
     }
   });
-},{threshold:0.12});
+},{threshold:0.04, rootMargin: '0px 0px 80px 0px'});
 revealEls.forEach(el=>io.observe(el));
 
 // ---------- Navbar scroll state & Scroll-Spy ----------
@@ -270,8 +322,8 @@ function openDrawer() {
   drawer.removeAttribute('inert');
   if (hamburger) hamburger.setAttribute('aria-expanded', 'true');
   document.body.style.overflow = 'hidden';
-  // Focus first focusable element inside drawer for keyboard users
-  const firstFocusable = drawer.querySelector('a, button');
+  // Focus first navigation link inside drawer for keyboard users
+  const firstFocusable = drawer.querySelector('.drawer-link') || closeDrawer;
   if (firstFocusable) firstFocusable.focus();
 }
 
@@ -482,30 +534,88 @@ document.querySelectorAll('.ai-pill').forEach(pill => {
   });
 });
 
-// ---------- Contact form (Meta Inline Validation & State) ----------
+// ---------- Contact form (Real Backend API Connection) ----------
 const contactForm = document.getElementById('contactForm');
 const formNote = document.getElementById('formNote');
 
 if (contactForm && formNote) {
-  contactForm.addEventListener('submit', (e) => {
+  contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!contactForm.checkValidity()) {
       contactForm.reportValidity();
       return;
     }
+
     const submitBtn = contactForm.querySelector('button[type="submit"]');
+
+    // Collect form fields matching Backend SubmitEnquiryDto
+    const nameVal = contactForm.querySelector('[name="cname"]')?.value.trim();
+    const emailVal = contactForm.querySelector('[name="cemail"]')?.value.trim();
+    const phoneVal = contactForm.querySelector('[name="cphone"]')?.value.trim();
+    const companyVal = contactForm.querySelector('[name="ccompany"]')?.value.trim();
+    const serviceVal = contactForm.querySelector('[name="cservice"]')?.value.trim() || 'General Enquiry';
+    const budgetVal = contactForm.querySelector('[name="cbudget"]')?.value.trim();
+    const messageVal = contactForm.querySelector('[name="cmessage"]')?.value.trim();
+
+    const payload = {
+      name: nameVal,
+      email: emailVal,
+      serviceInterested: serviceVal,
+      message: messageVal,
+    };
+    if (phoneVal) payload.phone = phoneVal;
+    if (companyVal) payload.company = companyVal;
+    if (budgetVal) payload.budget = budgetVal;
+
     if (submitBtn) {
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending…';
     }
-    setTimeout(() => {
-      formNote.classList.add('show');
+
+    try {
+      const res = await fetch(`${API_BASE}/contacts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const json = await res.json().catch(() => ({ success: false, message: `Server status ${res.status}` }));
+
+      if (res.ok && json.success) {
+        formNote.className = 'form-note show';
+        formNote.innerHTML = `
+          <span class="form-note-icon">✓</span>
+          <span>Message sent successfully. Our leadership team will review your project requirements and follow up within 24 hours.</span>
+        `;
+        formNote.setAttribute('role', 'alert');
+        contactForm.reset();
+      } else {
+        const errorText = Array.isArray(json.message) ? json.message.join('; ') : (json.message || 'Submission rejected by server.');
+        formNote.className = 'form-note show';
+        formNote.style.borderColor = '#fa3e3e';
+        formNote.style.color = '#c92a2a';
+        formNote.innerHTML = `
+          <span class="form-note-icon" style="background:#fa3e3e;color:#fff;">✕</span>
+          <span><strong>Failed to send:</strong> ${errorText}</span>
+        `;
+        formNote.setAttribute('role', 'alert');
+      }
+    } catch (err) {
+      console.warn('Network submission failed, showing offline notification:', err);
+      // If the backend server isn't running locally, notify gracefully
+      formNote.className = 'form-note show';
+      formNote.style.borderColor = '#fa3e3e';
+      formNote.style.color = '#c92a2a';
+      formNote.innerHTML = `
+        <span class="form-note-icon" style="background:#fa3e3e;color:#fff;">!</span>
+        <span>Cannot connect to API server at <code>${API_BASE}</code>. Make sure the backend server is running.</span>
+      `;
       formNote.setAttribute('role', 'alert');
-      contactForm.reset();
+    } finally {
       if (submitBtn) {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Send message →';
       }
-    }, 400);
+    }
   });
 }
